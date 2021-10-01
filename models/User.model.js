@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, Types } = require("mongoose");
 
 const UserSchema = new Schema({
   name: { type: String, required: true, trim: true },
@@ -10,6 +10,11 @@ const UserSchema = new Schema({
     lowercase: true,
   },
   passwordHash: { type: String, required: true },
+  profilePic: { type: String},
+  pets: [{ type: Types.ObjectId, ref: 'Pet' }],
+  reviews: [{ type: Types.ObjectId, ref: 'Review' }],
+  ad: [{ type: Types.ObjectId, ref: 'Ad' }],
+
   role: {
     type: String,
     enum: ["ADMIN", "USER"],
