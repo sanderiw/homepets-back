@@ -15,9 +15,11 @@ app.use(cors({ origin: process.env.REACT_APP_URL }));
 
 const basePath = `/api/v${API_VERSION}`
 
+//Adding userRouter
 const userRouter = require("./routes/user.routes");
 app.use(basePath, userRouter);
 
+//Adding petRouter
 const petRouter = require("./routes/pet.routes");
 app.use(basePath, petRouter);
 
