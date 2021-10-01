@@ -14,13 +14,13 @@ const UserSchema = new Schema({
   pets: [{ type: Types.ObjectId, ref: "Pet" }],
   reviews: [{ type: Types.ObjectId, ref: "Review" }],
   ads: [{ type: Types.ObjectId, ref: "Ad" }],
-
-  role: {
-    type: String,
-    enum: ["ADMIN", "USER"],
-    required: true,
-    default: "USER",
-  },
+  
+  // role: {
+  //   type: String,
+  //   enum: ["ADMIN", "USER"],
+  //   required: true,
+  //   default: "USER",
+  // },
 });
 
 const UserModel = model("User", UserSchema);

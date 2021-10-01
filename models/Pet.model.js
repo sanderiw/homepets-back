@@ -24,8 +24,8 @@ const PetSchema = new Schema({
   },
   breed: { type: String, default: "mixed-breed" },
   age: { type: Number, min: 0, required: true },
-  ads: [{ type: Types.ObjectId, ref: "Ad" }],
-  user: [{ type: Types.ObjectId, ref: "User" }],
+  user: { type: Types.ObjectId, ref: "User" },
+  ad: { type: Types.ObjectId, ref: "Ad" }
 });
 
 const PetModel = model("Pet", PetSchema);
