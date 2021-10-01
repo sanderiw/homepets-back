@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const ReviewModel = require('../models/Review.model');
+const AdModel = require('../models/Ad.model');
 
 const { ObjectId } = require('mongoose').Types;
 
@@ -14,6 +15,14 @@ router.post('/review', async (req, res, next) => {
     try {
         console.log(req.body);
         const result = await ReviewModel.create({ ...req.body });
+        // Adicionado a referência da tarefa recém-criada no advertisement
+        if (req.body.to.toAd) {
+            await AdModel.updateOne(
+                { _id: req.body.to.toAd },
+                { $push: { reviews: result._id } }
+            );
+        } //falta fazer o else if pra user model
+
         return res.status(201).json(result);
     } catch (err) {
         return next(err);
@@ -40,13 +49,12 @@ router.get('/review/:id', async (req, res, next) => {
     }
 });
 
-
 // cRud (Read) => GET (Get all reviews for user)
 router.get('/review/user/:user', async (req, res, next) => {
     try {
-        const result = await ReviewModel.find(
-            {'to.toUser': ObjectId(req.params.user)}
-          );
+        const result = await ReviewModel.find({
+            'to.toUser': ObjectId(req.params.user),
+        });
         return res.status(200).json(result);
     } catch (err) {
         return next(err);
@@ -56,15 +64,14 @@ router.get('/review/user/:user', async (req, res, next) => {
 // cRud (Read) => GET (Get all reviews for ad)
 router.get('/review/ad/:ad', async (req, res, next) => {
     try {
-        const result = await ReviewModel.find(
-            {'to.toAd': ObjectId(req.params.ad)}
-          );
+        const result = await ReviewModel.find({
+            'to.toAd': ObjectId(req.params.ad),
+        });
         return res.status(200).json(result);
     } catch (err) {
         return next(err);
     }
 });
-
 
 // cruD (Delete) => DELETE
 router.delete('/review/:id', async (req, res, next) => {
@@ -77,10 +84,9 @@ router.delete('/review/:id', async (req, res, next) => {
             return res.status(404).json({ msg: 'Review não encontrado' });
         }
         return res.status(200).json({});
-        
     } catch (err) {
         return next(err);
     }
 });
 
-module.exports = router
+module.exports = router;

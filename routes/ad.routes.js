@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const AdModel = require('../models/Ad.model');
+const ReviewModel = require('../models/Review.model');
 
 const { ObjectId } = require('mongoose').Types;
 
@@ -70,6 +71,13 @@ router.delete('/ad/:id', async (req, res, next) => {
 
         if (result.deletedCount < 1) {
             return res.status(404).json({ msg: 'Anúncio não encontrado' });
+        }
+        const resultReview = await ReviewModel.deleteMany({
+            'to.toAd': ObjectId(req.params.id),
+        });
+        
+        if (resultReview.deletedCount < 1) {
+            return res.status(404).json({ msg: 'Review não encontrado' });
         }
         return res.status(200).json({});
     } catch (err) {
