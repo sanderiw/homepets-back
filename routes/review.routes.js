@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const ReviewModel = require('../models/Review.model');
 const AdModel = require('../models/Ad.model');
+const UserModel = require('../models/User.model');
 
 const { ObjectId } = require('mongoose').Types;
 
@@ -21,7 +22,12 @@ router.post('/review', async (req, res, next) => {
                 { _id: req.body.to.toAd },
                 { $push: { reviews: result._id } }
             );
-        } //falta fazer o else if pra user model
+        } else if (req.body.to.toUser) {
+            await UserModel.updateOne(
+                { _id: req.body.to.toUser },
+                { $push: { reviews: result._id } }
+            );
+        }
 
         return res.status(201).json(result);
     } catch (err) {

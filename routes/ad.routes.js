@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const AdModel = require('../models/Ad.model');
 const ReviewModel = require('../models/Review.model');
+const PetModel = require('../models/Pet.model');
 
 const { ObjectId } = require('mongoose').Types;
 
@@ -14,7 +15,15 @@ const isAuthenticated = require('../middlewares/isAuthenticated');
 router.post('/ad', async (req, res, next) => {
     try {
         console.log(req.body);
-        const result = await AdModel.create({ ...req.body });
+        const result = await AdModel.create(req.body);
+
+        for (let pet of req.body.pets) {
+            await PetModel.updateOne(
+                { _id: ObjectId(pet) },
+                { $set: { ad: result._id } }
+            );
+        }
+    
         return res.status(201).json(result);
     } catch (err) {
         return next(err);
@@ -75,9 +84,11 @@ router.delete('/ad/:id', async (req, res, next) => {
         const resultReview = await ReviewModel.deleteMany({
             'to.toAd': ObjectId(req.params.id),
         });
-        
+
         if (resultReview.deletedCount < 1) {
-            return res.status(404).json({ msg: 'Review não encontrado' });
+            return res
+                .status(404)
+                .json({ msg: 'Anúncio sem reviews deletado' });
         }
         return res.status(200).json({});
     } catch (err) {
