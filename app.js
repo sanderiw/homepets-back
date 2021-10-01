@@ -17,6 +17,10 @@ app.use('/api', userRouter);
 const adRouter = require('./routes/ad.routes');
 app.use('/api', adRouter);
 
+//Adding reviewRouter
+const reviewRouter = require('./routes/review.routes');
+app.use('/api', reviewRouter);
+
 app.listen(Number(process.env.PORT), () =>
     console.log(`Server up and running at port ${process.env.PORT}`)
 );

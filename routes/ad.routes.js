@@ -23,7 +23,7 @@ router.post('/ad', async (req, res, next) => {
 // cRud (Read) => GET (Get all ads from the app)
 router.get('/ad', async (req, res, next) => {
     try {
-        const result = await AdModel.find({});
+        const result = await AdModel.find({}).populate('reviews');
         return res.status(200).json(result);
     } catch (err) {
         return next(err);
@@ -33,7 +33,9 @@ router.get('/ad', async (req, res, next) => {
 // cRud (Read) => GET (Get one)
 router.get('/ad/:id', async (req, res, next) => {
     try {
-        const result = await AdModel.findOne({ _id: req.params.id });
+        const result = await AdModel.findOne({ _id: req.params.id }).populate(
+            'reviews'
+        );
         return res.status(200).json(result);
     } catch (err) {
         return next(err);
@@ -60,7 +62,7 @@ router.patch('/ad/:id', async (req, res, next) => {
 });
 
 // cruD (Delete) => DELETE
-router.delete('ad/:id', async (req, res, next) => {
+router.delete('/ad/:id', async (req, res, next) => {
     try {
         const result = await AdModel.deleteOne({
             _id: ObjectId(req.params.id),
@@ -70,7 +72,6 @@ router.delete('ad/:id', async (req, res, next) => {
             return res.status(404).json({ msg: 'Anúncio não encontrado' });
         }
         return res.status(200).json({});
-        
     } catch (err) {
         return next(err);
     }
