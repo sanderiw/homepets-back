@@ -64,7 +64,7 @@ const adSchema = new Schema({
             },
             { _id: false }
         ),
-        required: true,
+        required: false,
     },
     availableDates: new Schema({
         startDate: { type: Date, default: Date.now },
@@ -76,4 +76,6 @@ const adSchema = new Schema({
     picturesUrl: { type: [String], trim: true },
 });
 
-module.exports = model('Ad', adSchema);
+const AdModel = model("Ad", adSchema);
+
+module.exports = AdModel;

@@ -15,4 +15,5 @@ const reviewSchema = new Schema({
     stars: { type: Number, enum: [1, 2, 3, 4, 5], required: true },
 });
 
-module.exports = model('Review', reviewSchema);
+const ReviewModel = model('Review', reviewSchema);
+module.exports = ReviewModel;
