@@ -10,17 +10,17 @@ const UserSchema = new Schema({
     lowercase: true,
   },
   passwordHash: { type: String, required: true },
-  profilePicUrl: String,
+  profilePicUrl: { type: String, trim: true },
   pets: [{ type: Types.ObjectId, ref: "Pet" }],
   reviews: [{ type: Types.ObjectId, ref: "Review" }],
-  ad: [{ type: Types.ObjectId, ref: "Ad" }],
+  ads: [{ type: Types.ObjectId, ref: "Ad" }],
 
-  // role: {
-  //   type: String,
-  //   enum: ["ADMIN", "USER"],
-  //   required: true,
-  //   default: "USER",
-  // },
+  role: {
+    type: String,
+    enum: ["ADMIN", "USER"],
+    required: true,
+    default: "USER",
+  },
 });
 
 const UserModel = model("User", UserSchema);

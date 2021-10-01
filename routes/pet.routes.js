@@ -6,7 +6,7 @@ const { ObjectId } = require('mongoose').Types;
 
 
 //Create pet => POST
-router.post("/registration", (req, res) => {
+router.post("/pet", (req, res) => {
   PetModel.create(req.body)
     .then((result) => {
       res.status(201).json(result);
@@ -20,7 +20,7 @@ router.post("/registration", (req, res) => {
 });
 
 //Read => Pet List
-router.get("/registration", (req, res) => {
+router.get("/pet", (req, res) => {
   PetModel.find()
     .then((result) => {
       res.status(200).json(result);
@@ -34,7 +34,7 @@ router.get("/registration", (req, res) => {
 });
 
 //Update Pet info
-router.patch("/registration/:id", (req, res) => {
+router.patch("/pet/:id", (req, res) => {
   PetModel.findOneAndUpdate(
     { _id: req.params.id },
     { $set: { ...req.body } },
@@ -55,7 +55,7 @@ router.patch("/registration/:id", (req, res) => {
 });
 
 // Delete => Pet Delete
-router.delete("/registration/:id", async (req, res, next) => {
+router.delete("/pet/:id", async (req, res, next) => {
   PetModel.deleteOne({ _id: ObjectId(req.params.id) })
     .then((result) => {
       if (result.deleteCount < 1) {
