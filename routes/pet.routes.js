@@ -31,9 +31,7 @@ router.get("/pet", (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      return res.status(500).json({
-        msg: "Falha ao encontrar pets: erro interno no servidor.",
-      });
+      return next(err);
     });
 });
 
@@ -52,9 +50,7 @@ router.patch("/pet/:id", (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      return res.status(500).json({
-        msg: "Falha ao encontrar pets: erro interno no servidor.",
-      });
+      return next(err);
     });
 });
 
@@ -70,9 +66,7 @@ router.delete("/pet/:id", async (req, res, next) => {
     })
     .catch((err) => {
       console.error(err);
-      return res.status(500).json({
-        msg: "Falha ao encontrar este pet: erro interno no servidor",
-      });
+      return next(err);
     });
 });
 
