@@ -1,22 +1,26 @@
 const express = require("express");
 const router = express.Router();
 const PetModel = require("../models/Pet.model");
+const UserModel = require("../models/User.model");
 
-const { ObjectId } = require('mongoose').Types;
-
+const { ObjectId } = require("mongoose").Types;
 
 //Create pet => POST
-router.post("/pet", (req, res) => {
-  PetModel.create(req.body)
-    .then((result) => {
-      res.status(201).json(result);
-    })
-    .catch((err) => {
-      console.error(err);
-      return res.status(500).json({
-        msg: "Falha ao inserir um novo pet: erro interno no servidor.",
-      });
-    });
+router.post("/pet", async (req, res) => {
+  try {
+    const result = await PetModel.create(req.body);
+
+    // Adicionado a referência do pet no User
+
+    await UserModel.updateOne(
+      { _id: req.body.user },
+      { $push: { pets: result._id } }
+    );
+
+    return res.status(201).json(result);
+  } catch (err) {
+    return next(err);
+  }
 });
 
 //Read => Pet List
@@ -27,9 +31,7 @@ router.get("/pet", (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      return res.status(500).json({
-        msg: "Falha ao encontrar pets: erro interno no servidor.",
-      });
+      return next(err);
     });
 });
 
@@ -48,9 +50,7 @@ router.patch("/pet/:id", (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      return res.status(500).json({
-        msg: "Falha ao encontrar pets: erro interno no servidor.",
-      });
+      return next(err);
     });
 });
 
@@ -66,9 +66,7 @@ router.delete("/pet/:id", async (req, res, next) => {
     })
     .catch((err) => {
       console.error(err);
-      return res.status(500).json({
-        msg: "Falha ao encontrar este pet: erro interno no servidor",
-      });
+      return next(err);
     });
 });
 
