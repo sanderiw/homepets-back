@@ -45,9 +45,8 @@ router.get("/adv", async (req, res, next) => {
 router.get("/adv/:id", async (req, res, next) => {
   try {
     const result = await AdModel.findOne({ _id: req.params.id }).populate(
-      "reviews"
+      "reviews user pets"
     );
-    console.log(req.params, "OI")
     return res.status(200).json(result);
   } catch (err) {
     return next(err);
