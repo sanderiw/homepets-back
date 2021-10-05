@@ -116,4 +116,16 @@ router.get("/profile", isAuthenticated, attachCurrentUser, (req, res) => {
   }
 });
 
+// READ => DETAIL
+router.get("/profile/:id", async (req, res, next) => {
+  try {
+    const result = await UserModel.findOne({ _id: req.params.id }).populate(
+      "reviews ads pets"
+    );
+    return res.status(200).json(result);
+  } catch (err) {
+    return next(err);
+  }
+});
+
 module.exports = router;

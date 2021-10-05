@@ -66,10 +66,10 @@ const adSchema = new Schema({
         ),
         required: false,
     },
-    availableDates: new Schema({
+    availableDates: {
         startDate: { type: Date, default: Date.now },
         endDate: { type: Date, default: Date.now },
-    }),
+    },
     pets: [{ type: Types.ObjectId, ref: 'Pet' }],
     user: { type: Types.ObjectId, ref: 'User' },
     reviews: [{ type: Types.ObjectId, ref: 'Review' }],
