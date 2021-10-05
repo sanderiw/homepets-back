@@ -1,16 +1,16 @@
-const router = require("express").Router();
-const bcrypt = require("bcryptjs");
+const router = require('express').Router();
+const bcrypt = require('bcryptjs');
 
-const UserModel = require("../models/User.model");
-const generateToken = require("../config/jwt.config");
-const isAuthenticated = require("../middlewares/isAuthenticated");
-const attachCurrentUser = require("../middlewares/attachCurrentUser");
+const UserModel = require('../models/User.model');
+const generateToken = require('../config/jwt.config');
+const isAuthenticated = require('../middlewares/isAuthenticated');
+const attachCurrentUser = require('../middlewares/attachCurrentUser');
 
 const salt_rounds = 10;
 
 // Crud (CREATE) - HTTP POST
 // Criar um novo usuário
-router.post("/signup", async (req, res) => {
+router.post('/signup', async (req, res) => {
   // Requisições do tipo POST tem uma propriedade especial chamada body, que carrega a informação enviada pelo cliente
   console.log(req.body);
 
@@ -27,7 +27,7 @@ router.post("/signup", async (req, res) => {
     ) {
       // O código 400 significa Bad Request
       return res.status(400).json({
-        msg: "Password is required and must have at least 8 characters, uppercase and lowercase letters, numbers and special characters.",
+        msg: 'Password is required and must have at least 8 characters, uppercase and lowercase letters, numbers and special characters.',
       });
     }
 
@@ -53,7 +53,7 @@ router.post("/signup", async (req, res) => {
 });
 
 // Login
-router.post("/login", async (req, res) => {
+router.post('/login', async (req, res) => {
   try {
     // Extraindo o email e senha do corpo da requisição
     const { email, password } = req.body;
@@ -67,7 +67,7 @@ router.post("/login", async (req, res) => {
     if (!user) {
       return res
         .status(400)
-        .json({ msg: "This email is not yet registered in our website;" });
+        .json({ msg: 'This email is not yet registered in our website;' });
     }
 
     // Verificar se a senha do usuário pesquisado bate com a senha recebida pelo formulário
@@ -87,7 +87,7 @@ router.post("/login", async (req, res) => {
       });
     } else {
       // 401 Significa Unauthorized
-      return res.status(401).json({ msg: "Wrong password or email" });
+      return res.status(401).json({ msg: 'Wrong password or email' });
     }
   } catch (err) {
     console.error(err);
@@ -97,7 +97,7 @@ router.post("/login", async (req, res) => {
 
 // cRud (READ) - HTTP GET
 // Buscar dados do usuário
-router.get("/profile", isAuthenticated, attachCurrentUser, (req, res) => {
+router.get('/profile', isAuthenticated, attachCurrentUser, (req, res) => {
   console.log(req.headers);
 
   try {
@@ -108,7 +108,7 @@ router.get("/profile", isAuthenticated, attachCurrentUser, (req, res) => {
       // Responder o cliente com os dados do usuário. O status 200 significa OK
       return res.status(200).json(loggedInUser);
     } else {
-      return res.status(404).json({ msg: "User not found." });
+      return res.status(404).json({ msg: 'User not found.' });
     }
   } catch (err) {
     console.error(err);

@@ -1,18 +1,18 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const AdModel = require("../models/Ad.model");
-const ReviewModel = require("../models/Review.model");
-const PetModel = require("../models/Pet.model");
+const AdModel = require('../models/Ad.model');
+const ReviewModel = require('../models/Review.model');
+const PetModel = require('../models/Pet.model');
 
-const { ObjectId } = require("mongoose").Types;
+const { ObjectId } = require('mongoose').Types;
 
 // Importando isAuthenticated mas ainda não usando como middleware em nenhum route
-const isAuthenticated = require("../middlewares/isAuthenticated");
+const isAuthenticated = require('../middlewares/isAuthenticated');
 
 // Crud de Advertisements
 
 // Crud (Create) => POST
-router.post("/adv", async (req, res, next) => {
+router.post('/adv', async (req, res, next) => {
   try {
     console.log(req.body);
     const result = await AdModel.create(req.body);
@@ -24,7 +24,6 @@ router.post("/adv", async (req, res, next) => {
         );
       }
     }
-
     return res.status(201).json(result);
   } catch (err) {
     return next(err);
@@ -32,9 +31,9 @@ router.post("/adv", async (req, res, next) => {
 });
 
 // cRud (Read) => GET (Get all ads from the app)
-router.get("/adv", async (req, res, next) => {
+router.get('/adv', async (req, res, next) => {
   try {
-    const result = await AdModel.find({}).populate("reviews");
+    const result = await AdModel.find({}).populate('reviews');
     return res.status(200).json(result);
   } catch (err) {
     return next(err);
@@ -42,10 +41,10 @@ router.get("/adv", async (req, res, next) => {
 });
 
 // cRud (Read) => GET (Get one)
-router.get("/adv/:id", async (req, res, next) => {
+router.get('/adv/:id', async (req, res, next) => {
   try {
     const result = await AdModel.findOne({ _id: req.params.id }).populate(
-      "reviews user pets"
+      'reviews user pets'
     );
     return res.status(200).json(result);
   } catch (err) {
@@ -54,7 +53,7 @@ router.get("/adv/:id", async (req, res, next) => {
 });
 
 // crUd (Update) => PATCH
-router.patch("/adv/:id", async (req, res, next) => {
+router.patch('/adv/:id', async (req, res, next) => {
   try {
     const result = await AdModel.findOneAndUpdate(
       { _id: ObjectId(req.params.id) },
@@ -63,7 +62,7 @@ router.patch("/adv/:id", async (req, res, next) => {
     );
 
     if (!result) {
-      return res.status(404).json({ msg: "Anúncio não encontrado" });
+      return res.status(404).json({ msg: 'Anúncio não encontrado' });
     }
 
     return res.status(200).json(result);
@@ -73,21 +72,21 @@ router.patch("/adv/:id", async (req, res, next) => {
 });
 
 // cruD (Delete) => DELETE
-router.delete("/adv/:id", async (req, res, next) => {
+router.delete('/adv/:id', async (req, res, next) => {
   try {
     const result = await AdModel.deleteOne({
       _id: ObjectId(req.params.id),
     });
 
     if (result.deletedCount < 1) {
-      return res.status(404).json({ msg: "Anúncio não encontrado" });
+      return res.status(404).json({ msg: 'Anúncio não encontrado' });
     }
     const resultReview = await ReviewModel.deleteMany({
-      "to.toAd": ObjectId(req.params.id),
+      'to.toAd': ObjectId(req.params.id),
     });
 
     if (resultReview.deletedCount < 1) {
-      return res.status(404).json({ msg: "Anúncio sem reviews deletado" });
+      return res.status(404).json({ msg: 'Anúncio sem reviews deletado' });
     }
     return res.status(200).json({});
   } catch (err) {
