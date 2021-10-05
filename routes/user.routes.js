@@ -116,16 +116,13 @@ router.get('/profile', isAuthenticated, attachCurrentUser, (req, res) => {
   }
 });
 
-router.get('/profile/:id', isAuthenticated, attachCurrentUser, async (req, res, next) => {
+// READ => DETAIL
+router.get("/profile/:id", async (req, res, next) => {
   try {
-    const loggedInUser = req.currentUser;
-    if (loggedInUser) {
-      const result = await UserModel.findOne({ _id: req.params.id }).populate('pets').populate('reviews');
-      return res.status(200).json(result);
-    } else {
-      return res.status(404).json({ msg: 'User not found.' });
-    }
-    
+    const result = await UserModel.findOne({ _id: req.params.id }).populate(
+      "reviews ads pets"
+    );
+    return res.status(200).json(result);
   } catch (err) {
     return next(err);
   }
