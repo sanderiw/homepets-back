@@ -129,7 +129,6 @@ router.get("/profile/:id", isAuthenticated, attachCurrentUser, async (req, res, 
 });
 
 //Update User info
-
 router.patch("/profile/:id", (req, res) => {
   UserModel.findOneAndUpdate(
     { _id: req.params.id },
