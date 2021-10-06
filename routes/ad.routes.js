@@ -3,6 +3,7 @@ const router = express.Router();
 const AdModel = require('../models/Ad.model');
 const ReviewModel = require('../models/Review.model');
 const PetModel = require('../models/Pet.model');
+const UserModel = require('../models/User.model');
 
 const { ObjectId } = require('mongoose').Types;
 
@@ -23,6 +24,12 @@ router.post('/adv', async (req, res, next) => {
           { $set: { ad: result._id } }
         );
       }
+    }
+    if (req.body.user) {
+      await UserModel.updateOne(
+        { _id: ObjectId(req.body.user) },
+        { $push: { ads: result._id } }
+      );
     }
     return res.status(201).json(result);
   } catch (err) {
@@ -85,9 +92,18 @@ router.delete('/adv/:id', async (req, res, next) => {
       'to.toAd': ObjectId(req.params.id),
     });
 
+    const resultUser = await UserModel.updateMany({
+      $pull: { ads: ObjectId(req.params.id) },
+    });
+
+    if (resultUser) {
+      return res.status(404).json({});
+    }
+
     if (resultReview.deletedCount < 1) {
       return res.status(404).json({ msg: 'Anúncio sem reviews deletado' });
     }
+
     return res.status(200).json({});
   } catch (err) {
     return next(err);

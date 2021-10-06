@@ -117,7 +117,7 @@ router.get('/profile', isAuthenticated, attachCurrentUser, (req, res) => {
 });
 
 // READ => DETAIL
-router.get("/profile/:id", async (req, res, next) => {
+router.get("/profile/:id", isAuthenticated, attachCurrentUser, async (req, res, next) => {
   try {
     const result = await UserModel.findOne({ _id: req.params.id }).populate(
       "reviews ads pets"
