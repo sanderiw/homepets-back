@@ -128,4 +128,23 @@ router.get("/profile/:id", async (req, res, next) => {
   }
 });
 
+//Update User info
+router.patch("/profile/:id", (req, res) => {
+  UserModel.findOneAndUpdate(
+    { _id: req.params.id },
+    { $set: { ...req.body } },
+    { new: true, runValidators: true }
+  )
+    .then((result) => {
+      if (!result) {
+        return res.status(404).json({ msg: "Usuário não encontrado!" });
+      }
+      return res.status(200).json(result);
+    })
+    .catch((err) => {
+      console.error(err);
+      return next(err);
+    });
+});
+
 module.exports = router;

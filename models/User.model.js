@@ -16,8 +16,6 @@ const UserSchema = new Schema({
     trim: true,
     default: "http://www.wikiaves.com.br/img/semfoto.png",
   },
-  city: { type: String, trim: true, default: "São Paulo"},
-  country: { type: String, trim: true, default: "Brasil"},
   pets: [{ type: Types.ObjectId, ref: "Pet" }],
   reviews: [{ type: Types.ObjectId, ref: "Review" }],
   ads: [{ type: Types.ObjectId, ref: "Ad" }],
