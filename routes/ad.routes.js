@@ -33,7 +33,7 @@ router.post('/adv', async (req, res, next) => {
 // cRud (Read) => GET (Get all ads from the app)
 router.get('/adv', async (req, res, next) => {
   try {
-    const result = await AdModel.find({}).populate('reviews');
+    const result = await AdModel.find({}).populate('reviews pets user');
     return res.status(200).json(result);
   } catch (err) {
     return next(err);
