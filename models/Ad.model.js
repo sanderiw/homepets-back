@@ -73,7 +73,7 @@ const adSchema = new Schema({
     pets: [{ type: Types.ObjectId, ref: 'Pet' }],
     user: { type: Types.ObjectId, ref: 'User' },
     reviews: [{ type: Types.ObjectId, ref: 'Review' }],
-    picturesUrl: { type: [String], trim: true },
+    picturesUrl: [{ type: String, trim: true }],
 });
 
 const AdModel = model("Ad", adSchema);
