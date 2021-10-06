@@ -9,8 +9,7 @@ const UserSchema = new Schema({
     trim: true,
     lowercase: true,
   },
-  personalDesc: { type: String, required: true, maxlength: 300 },
-  latestWorksDesc: { type: String, required: true, maxlength: 500 },
+  personalDesc: { type: String, required: true, maxlength: 500 },
   passwordHash: { type: String, required: true },
   profilePicUrl: {
     type: String,
@@ -19,7 +18,6 @@ const UserSchema = new Schema({
   },
   city: { type: String, trim: true, default: "São Paulo"},
   country: { type: String, trim: true, default: "Brasil"},
-  carouselPics: [{type: String, trim: true}],
   pets: [{ type: Types.ObjectId, ref: "Pet" }],
   reviews: [{ type: Types.ObjectId, ref: "Review" }],
   ads: [{ type: Types.ObjectId, ref: "Ad" }],
