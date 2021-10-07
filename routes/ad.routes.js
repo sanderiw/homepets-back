@@ -41,6 +41,13 @@ router.post('/adv', async (req, res, next) => {
 router.get('/adv', async (req, res, next) => {
   try {
     const result = await AdModel.find({}).populate('reviews pets user');
+    if (req.query.search) {
+      const normalizedSearch = req.query.search[0].toUpperCase() + req.query.search.slice(1).toLowerCase()
+      const filtered = await AdModel.find(
+        {$or: [{ 'location.city': normalizedSearch},{ 'location.country': normalizedSearch}]}
+      )
+      return res.status(200).json(filtered);
+    }
     return res.status(200).json(result);
   } catch (err) {
     return next(err);
@@ -97,11 +104,11 @@ router.delete('/adv/:id', async (req, res, next) => {
     });
 
     if (resultUser) {
-      return res.status(404).json({});
+      return res.status(200).json({});
     }
 
     if (resultReview.deletedCount < 1) {
-      return res.status(404).json({ msg: 'Anúncio sem reviews deletado' });
+      return res.status(200).json({ msg: 'Anúncio sem reviews deletado' });
     }
 
     return res.status(200).json({});
