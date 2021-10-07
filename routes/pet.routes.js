@@ -36,6 +36,16 @@ router.get('/pet', (req, res) => {
     });
 });
 
+// Info => Get One
+router.get('/pet/:id', async (req, res, next) => {
+  try {
+    const result = await PetModel.findOne({ _id: req.params.id })
+    return res.status(200).json(result);
+  } catch (err) {
+    return next(err);
+  }
+});
+
 //Update Pet info
 router.patch('/pet/:id', (req, res) => {
   PetModel.findOneAndUpdate(
