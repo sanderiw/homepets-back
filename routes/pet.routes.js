@@ -6,6 +6,22 @@ const AdModel = require('../models/Ad.model');
 
 const { ObjectId } = require('mongoose').Types;
 
+//Importando multer
+const uploader = require('../config/cloudinary.config')
+
+// Rota para Upload de arquivo
+router.post('/imagepet-upload', uploader.single('petImg'), (req, res, next) => {
+ 
+  if (!req.file) {
+    return next(new Error('Erro: upload da imagem do Pet não finalizado'))
+ }
+
+ console.log(req.file)
+
+ return res.status(201).json({ url: req.file.path })
+})
+
+
 //Create pet => POST
 router.post('/pet', async (req, res) => {
   try {
