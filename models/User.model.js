@@ -9,7 +9,7 @@ const UserSchema = new Schema({
     trim: true,
     lowercase: true,
   },
-  personalDesc: { type: String, required: true, maxlength: 500 },
+  personalDesc: { type: String, maxlength: 500 },
   passwordHash: { type: String, required: true },
   profilePicUrl: {
     type: String,
