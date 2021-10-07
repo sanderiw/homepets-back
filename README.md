@@ -12,7 +12,7 @@ Um site pra que as pessoas possam unir o amor pelos animais e o prazer de viajar
 O usuário deixa disponível um imóvel, com seus Pets, que precisam de cuidado. Outra pessoa se disponibiliza pra ficar hospedado na casa e tomar conta dos pets.
 
 ## Experimente
-- [Iron Study](https://ironstudy.netlify.app/)
+- [Homepets](https://home-pets.netlify.app/)
 
 ## Conheça mais sobre como construímos o projeto
 
