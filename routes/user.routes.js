@@ -52,11 +52,26 @@ router.post('/signup', async (req, res) => {
   }
 });
 
+//Importando multer
+const uploader = require('../config/cloudinary.config')
+
+// Rota para Upload de arquivo
+router.post('/image-upload', uploader.single('picture'), (req, res, next) => {
+ 
+  if (!req.file) {
+    return next(new Error('Erro: upload não finalizado'))
+ }
+
+ console.log(req.file)
+
+ return res.status(201).json({ url: req.file.path })
+})
+
 // Login
 router.post('/login', async (req, res) => {
   try {
     // Extraindo o email e senha do corpo da requisição
-    const { email, password } = req.body;
+    const { email, password, profilePicUrl } = req.body;
 
     // Pesquisar esse usuário no banco pelo email
     const user = await UserModel.findOne({ email });
