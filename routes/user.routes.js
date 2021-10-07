@@ -132,19 +132,30 @@ router.get('/profile', isAuthenticated, attachCurrentUser, (req, res) => {
 });
 
 // READ => DETAIL
-router.get("/profile/:id", isAuthenticated, attachCurrentUser, async (req, res, next) => {
-  try {
-    const result = await UserModel.findOne({ _id: req.params.id }).populate(
-      "reviews ads pets"
-    );
-    return res.status(200).json(result);
-  } catch (err) {
-    return next(err);
+router.get(
+  '/profile/:id',
+  isAuthenticated,
+  attachCurrentUser,
+  async (req, res, next) => {
+    try {
+      const result = await UserModel.findOne({ _id: req.params.id })
+        .populate('reviews pets')
+        .populate({
+          path: 'ads',
+          populate: {
+            path: 'pets',
+            model: 'Pet',
+          },
+        });
+      return res.status(200).json(result);
+    } catch (err) {
+      return next(err);
+    }
   }
-});
+);
 
 //Update User info
-router.patch("/profile/:id", (req, res) => {
+router.patch('/profile/:id', (req, res) => {
   UserModel.findOneAndUpdate(
     { _id: req.params.id },
     { $set: { ...req.body } },
@@ -152,7 +163,7 @@ router.patch("/profile/:id", (req, res) => {
   )
     .then((result) => {
       if (!result) {
-        return res.status(404).json({ msg: "Usuário não encontrado!" });
+        return res.status(404).json({ msg: 'Usuário não encontrado!' });
       }
       return res.status(200).json(result);
     })

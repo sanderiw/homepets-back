@@ -6,7 +6,7 @@ const { Schema, model, Types } = require('mongoose');
 //Preenchendo o Schema com os campos (e suas regras) necessários preencher no banco de dados
 const PetSchema = new Schema({
   name: { type: String, required: true, trim: true },
-  imageUrl: String,
+  imageUrl: { type: String, required: true, trim: true },
   species: {
     type: String,
     enum: [
@@ -22,7 +22,7 @@ const PetSchema = new Schema({
     ],
     required: true,
   },
-  breed: { type: String, default: 'mixed-breed' },
+  breed: { type: String, default: 'mixed-breed', required: true },
   age: { type: Number, min: 0, required: true },
   ad: { type: Types.ObjectId, ref: 'Ad' },
   user: { type: Types.ObjectId, ref: 'User' },

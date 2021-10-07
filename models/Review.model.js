@@ -1,8 +1,7 @@
 const { Schema, model, Types } = require('mongoose');
 
 const reviewSchema = new Schema({
-    // Precisa colocar required true pra author
-    author: { type: Types.ObjectId, ref: 'User' },
+    author: { type: Types.ObjectId, ref: 'User', required:true },
     to: {
         type: new Schema({
             toUser: { type: Types.ObjectId, ref: 'User' },

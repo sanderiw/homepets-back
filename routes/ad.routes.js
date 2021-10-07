@@ -40,12 +40,25 @@ router.post('/adv', async (req, res, next) => {
 // cRud (Read) => GET (Get all ads from the app)
 router.get('/adv', async (req, res, next) => {
   try {
-    const result = await AdModel.find({}).populate('reviews pets user');
+    const result = await AdModel.find({})
+      .populate('pets user')
+      .populate({
+        path: 'reviews',
+        populate: {
+          path: 'author',
+          model: 'User',
+        },
+      });
     if (req.query.search) {
-      const normalizedSearch = req.query.search[0].toUpperCase() + req.query.search.slice(1).toLowerCase()
-      const filtered = await AdModel.find(
-        {$or: [{ 'location.city': normalizedSearch},{ 'location.country': normalizedSearch}]}
-      )
+      const normalizedSearch =
+        req.query.search[0].toUpperCase() +
+        req.query.search.slice(1).toLowerCase();
+      const filtered = await AdModel.find({
+        $or: [
+          { 'location.city': normalizedSearch },
+          { 'location.country': normalizedSearch },
+        ],
+      });
       return res.status(200).json(filtered);
     }
     return res.status(200).json(result);
@@ -57,9 +70,15 @@ router.get('/adv', async (req, res, next) => {
 // cRud (Read) => GET (Get one)
 router.get('/adv/:id', async (req, res, next) => {
   try {
-    const result = await AdModel.findOne({ _id: req.params.id }).populate(
-      'reviews user pets'
-    );
+    const result = await AdModel.findOne({ _id: req.params.id })
+      .populate('user pets')
+      .populate({
+        path: 'reviews',
+        populate: {
+          path: 'author',
+          model: 'User',
+        },
+      });
     return res.status(200).json(result);
   } catch (err) {
     return next(err);

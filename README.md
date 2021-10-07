@@ -1,53 +1,26 @@
-![logo_ironhack_blue 7](https://user-images.githubusercontent.com/23629340/40541063-a07a0a8a-601a-11e8-91b5-2f13e4e6b441.png)
+<img src="https://home-pets.netlify.app/static/media/pet-house.5cc12664.png" alt="drawing" width="100"/> <img src="https://home-pets.netlify.app/static/media/homepets-brand.1930674e.png" alt="drawing" width="210"/>
 
-# IronREST Boilerplate
+# Homepets
 
-Esse boilerplate para API RESTful já inclui:
+## Sobre
+Cuide de um Pet em qualquer lugar do mundo.
+Hospede-se de graça e cuide de um bichinho fofinho!
 
-- Autenticação por tokens JWT usando o Passport
-- Conexão com banco de dados MongoDB usando Mongoose
-- Servidor Web usando Express pré-configurado com CORS e aceitando requisições JSON e Multipart Form
-- Upload de arquivos usando Cloudinary e Multer
+## Como usar
 
-## Para Começar
+Um site pra que as pessoas possam unir o amor pelos animais e o prazer de viajar. Basta se cadastrar e começar a pesquisar imóveis, pets, cidades ou anunciar o seu imóvel!
+O usuário deixa disponível um imóvel, com seus Pets, que precisam de cuidado. Outra pessoa se disponibiliza pra ficar hospedado na casa e tomar conta dos pets.
 
-- Faça o fork e clone deste repositório
+## Experimente
+- [Homepets](https://home-pets.netlify.app/)
 
-## Instalação
+## Conheça mais sobre como construímos o projeto
 
-```shell
-$ npm install
-```
+- [Apresentação](https://docs.google.com/presentation/d/13jFMj7Hv5VTCvFjlD9UnCFsIb6afE7D8mTHsSFDWaSU/edit?usp=sharing)
+### Sobre nós
 
-## Desenvolvimento
+- Natália Alves: [Linkedin](https://www.linkedin.com/in/nat%C3%A1lia-alves-5b00891b9/) / [GitHub](https://github.com/nat-alvec)
+- Sander Iwase: [Linkedin](https://www.linkedin.com/in/sanderiwase/) / [GitHub](https://github.com/sanderiw)
 
-Para iniciar o servidor web localmente execute no seu terminal:
-
-```shell
-$ npm run dev
-```
-
-## Deploy do MongoDB
-
-1. Faça login no https://account.mongodb.com/account/login?nds=true
-2. Crie um cluster gratuito
-3. Siga as instruções e obtenha a string de conexão com o banco
-4. Crie uma variável de ambiente MONGODB_URI no Heroku com a string de conexão copiada do Atlas
-
-## Deploy no Heroku
-
-1. Faça login no Heroku e selecione seu repositório
-2. Habilite 'automatic deploys'
-3. No seu terminal, execute os seguintes comandos:
-
-```shell
-$ git add .
-$ git commit -m 'deploying'
-$ heroku git:remote -a nome-do-repo-no-heroku
-$ git push heroku master
-```
-
-4. Adicione uma variável de ambiente no Heroku para cada variável de ambiente presente no arquivo .env (não precisa criar a PORT no Heroku)
-5. Adicione a URL da sua API hospedada no Heroku nas variáveis de ambiente do app React no Netlify
-
-Happy coding! 💙
+### Links do Servidor e Cliente do projeto
+- HomePets 🐶 - [Server](https://github.com/sanderiw/homepets-back) & [Client](https://github.com/sanderiw/homepets-front)
