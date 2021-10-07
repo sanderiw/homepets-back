@@ -21,3 +21,6 @@ O usuário deixa disponível um imóvel, com seus Pets, que precisam de cuidado.
 
 - Natália Alves: [Linkedin](https://www.linkedin.com/in/nat%C3%A1lia-alves-5b00891b9/) / [GitHub](https://github.com/nat-alvec)
 - Sander Iwase: [Linkedin](https://www.linkedin.com/in/sanderiwase/) / [GitHub](https://github.com/sanderiw)
+
+### Links do Servidor e Cliente do projeto
+- HomePets 🐶 - [Server](https://github.com/sanderiw/homepets-back) & [Client](https://github.com/sanderiw/homepets-front)
