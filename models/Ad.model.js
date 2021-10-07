@@ -1,9 +1,9 @@
 const { Schema, model, Types } = require('mongoose');
 
 const adSchema = new Schema({
-    title: { type: String, trim: true, maxlength: 85, default: 'Novo anúncio' },
-    intro: { type: String, trim: true, maxlength: 500 },
-    homeinfo: { type: String, trim: true, maxlength: 500 },
+    title: { type: String, trim: true, maxlength: 85, default: 'Novo anúncio', required:true },
+    intro: { type: String, trim: true, maxlength: 500, required:true },
+    homeinfo: { type: String, trim: true, maxlength: 500, required:true },
     amenities: {
         type: [String],
         enum: [
@@ -17,7 +17,7 @@ const adSchema = new Schema({
             'Acessibilidade',
         ],
     },
-    duties: { type: String, trim: true, maxlength: 500 },
+    duties: { type: String, trim: true, maxlength: 500, required:true },
     location: {
         type: new Schema(
             {
@@ -59,8 +59,8 @@ const adSchema = new Schema({
                     ],
                     default: 'São Paulo',
                 },
-                street: { type: String, trim: true },
-                number: { type: Number },
+                street: { type: String, trim: true, required:true },
+                number: { type: Number, required:true },
             },
             { _id: false }
         ),
