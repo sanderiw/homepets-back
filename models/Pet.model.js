@@ -14,7 +14,7 @@ const PetSchema = new Schema({
       'réptil',
       'peixe',
       'galinha',
-      'ppequenos pets',
+      'pequenos pets',
       'gato',
       'cavalo',
       'pássaro',
