@@ -1,4 +1,4 @@
-![homepets](https://home-pets.netlify.app/static/media/homepets-brand.1930674e.png)
+<img src="https://home-pets.netlify.app/static/media/pet-house.5cc12664.png" alt="drawing" width="200"/> <img src="https://home-pets.netlify.app/static/media/homepets-brand.1930674e.png" alt="drawing" width="200"/>
 
 # Homepets
 
