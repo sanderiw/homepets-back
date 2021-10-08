@@ -13,86 +13,93 @@ const isAuthenticated = require('../middlewares/isAuthenticated');
 
 // Crud - Create => POST
 router.post('/review', async (req, res, next) => {
-    try {
-        console.log(req.body);
-        const result = await ReviewModel.create({ ...req.body });
-        // Adicionado a referência da tarefa recém-criada no advertisement
-        if (req.body.to.toAd) {
-            await AdModel.updateOne(
-                { _id: req.body.to.toAd },
-                { $push: { reviews: result._id } }
-            );
-        } else if (req.body.to.toUser) {
-            await UserModel.updateOne(
-                { _id: req.body.to.toUser },
-                { $push: { reviews: result._id } }
-            );
-        }
-
-        return res.status(201).json(result);
-    } catch (err) {
-        return next(err);
+  try {
+    console.log(req.body);
+    const result = await ReviewModel.create({ ...req.body });
+    // Adicionado a referência da tarefa recém-criada no advertisement
+    if (req.body.to.toAd) {
+      await AdModel.updateOne(
+        { _id: req.body.to.toAd },
+        { $push: { reviews: result._id } }
+      );
+    } else if (req.body.to.toUser) {
+      await UserModel.updateOne(
+        { _id: req.body.to.toUser },
+        { $push: { reviews: result._id } }
+      );
     }
+
+    return res.status(201).json(result);
+  } catch (err) {
+    return next(err);
+  }
 });
 
 // cRud (Read) => GET (Get all ads from the app)
 router.get('/review', async (req, res, next) => {
-    try {
-        const result = await ReviewModel.find({});
-        return res.status(200).json(result);
-    } catch (err) {
-        return next(err);
-    }
+  try {
+    const result = await ReviewModel.find({});
+    return res.status(200).json(result);
+  } catch (err) {
+    return next(err);
+  }
 });
 
 // cRud (Read) => GET (Get one)
 router.get('/review/:id', async (req, res, next) => {
-    try {
-        const result = await ReviewModel.findOne({ _id: req.params.id });
-        return res.status(200).json(result);
-    } catch (err) {
-        return next(err);
-    }
+  try {
+    const result = await ReviewModel.findOne({ _id: req.params.id });
+    return res.status(200).json(result);
+  } catch (err) {
+    return next(err);
+  }
 });
 
 // cRud (Read) => GET (Get all reviews for user)
 router.get('/review/user/:user', async (req, res, next) => {
-    try {
-        const result = await ReviewModel.find({
-            'to.toUser': ObjectId(req.params.user),
-        });
-        return res.status(200).json(result);
-    } catch (err) {
-        return next(err);
-    }
+  try {
+    const result = await ReviewModel.find({
+      'to.toUser': ObjectId(req.params.user),
+    });
+    return res.status(200).json(result);
+  } catch (err) {
+    return next(err);
+  }
 });
 
 // cRud (Read) => GET (Get all reviews for ad)
 router.get('/review/ad/:ad', async (req, res, next) => {
-    try {
-        const result = await ReviewModel.find({
-            'to.toAd': ObjectId(req.params.ad),
-        });
-        return res.status(200).json(result);
-    } catch (err) {
-        return next(err);
-    }
+  try {
+    const result = await ReviewModel.find({
+      'to.toAd': ObjectId(req.params.ad),
+    });
+    return res.status(200).json(result);
+  } catch (err) {
+    return next(err);
+  }
 });
 
 // cruD (Delete) => DELETE
 router.delete('/review/:id', async (req, res, next) => {
-    try {
-        const result = await ReviewModel.deleteOne({
-            _id: ObjectId(req.params.id),
-        });
+  try {
+    const result = await ReviewModel.deleteOne({
+      _id: ObjectId(req.params.id),
+    });
 
-        if (result.deletedCount < 1) {
-            return res.status(404).json({ msg: 'Review não encontrado' });
-        }
-        return res.status(200).json({});
-    } catch (err) {
-        return next(err);
+    if (result.deletedCount < 1) {
+      return res.status(404).json({ msg: 'Review não encontrado' });
     }
+    const resultAd = await AdModel.updateMany({
+      $pull: { reviews: ObjectId(req.params.id) },
+    });
+
+    if (resultAd) {
+      return res.status(200).json({});
+    }
+    return res.status(200).json({});
+  } catch (err) {
+    return next(err);
+  }
 });
 
 module.exports = router;
